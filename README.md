@@ -16,7 +16,12 @@ targets: [
 ## Usage:
 
 ```swift
+import SwiftUI
+import WPArticleView
+
 struct ContentView: View {
+
+    let htmlText: String
         
     var body: some View {
         WPArticleView(htmlBody: htmlText) { blocks in
