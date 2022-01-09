@@ -48,3 +48,43 @@ struct ContentView: View {
     
 }
 ```
+### Or using `ScrollView`:
+```swift
+import SwiftUI
+import WPArticleView
+
+struct ContentView: View {
+        
+    var body: some View {
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 16) {
+                WPArticleView(htmlBody: htmlText) { blocks in
+                    
+                    ForEach(blocks.indices, id: \.self) { id in
+                        blocks[id]
+                    }
+                    
+                    
+                } text: { attributedText in
+                    
+                    Text(attributedText)
+                    
+                } image: { imageURL in
+                    
+                    AsyncImage(url: imageURL) { image in
+                        image.resizable()
+                            .aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                    }
+                    
+                }
+            }
+            .padding(24)
+        }
+        
+    }
+    
+}
+```
