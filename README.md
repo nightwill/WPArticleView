@@ -43,6 +43,11 @@ struct ContentView: View {
                 ProgressView()
             }
             
+        } video: { videoURL in
+                    
+            VideoPlayer(player: AVPlayer(url: videoURL))
+                    .frame(minHeight: 400)
+                    
         }
     }
     
@@ -78,6 +83,11 @@ struct ContentView: View {
                         ProgressView()
                             .frame(maxWidth: .infinity)
                     }
+                    
+                } video: { videoURL in
+                    
+                    VideoPlayer(player: AVPlayer(url: videoURL))
+                        .frame(minHeight: 400)
                     
                 }
             }

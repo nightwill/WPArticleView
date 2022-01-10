@@ -6,22 +6,24 @@ public struct WPArticleView<Content: View>: View {
     
     private let content: Content
         
-    public init?<T, I>(
+    public init?<T, I, V>(
         htmlBody: String,
         @ViewBuilder list: @escaping ([AnyView]) -> Content,
         @ViewBuilder text: @escaping (String) -> T,
-        @ViewBuilder image: @escaping (URL) -> I
-    ) where T: View, I: View {
+        @ViewBuilder image: @escaping (URL) -> I,
+        @ViewBuilder video: @escaping (URL) -> V
+    ) where T: View, I: View, V: View {
         guard let doc = try? SwiftSoup.parseBodyFragment(htmlBody), let body = doc.body() else {
             return nil
         }
         let blocks: [AnyView] = body.children().compactMap { element in
-            switch element.tagName() {
-            case ParagraphView<T>.tag:
-                return ParagraphView(element, text: text)?.eraseToAnyView()
-            case FigureView<I>.tag:
-                return FigureView(element, image: image)?.eraseToAnyView()
-            default:
+            if let view = VideoView<V>(element, video: video) {
+                return view.eraseToAnyView()
+            } else if let view = ImageView(element, image: image) {
+                return view.eraseToAnyView()
+            } else if let view = ParagraphView(element, text: text) {
+                return view.eraseToAnyView()
+            } else {
                 return nil
             }
         }
