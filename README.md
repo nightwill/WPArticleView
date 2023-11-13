@@ -30,7 +30,7 @@ struct ContentView: View {
                 blocks[id]
             }
             
-        } text: { attributedText in
+        } attributedText: { attributedText in
             
             Text(attributedText)
             
@@ -70,7 +70,7 @@ struct ContentView: View {
                     }
                     
                     
-                } text: { attributedText in
+                } attributedText: { attributedText in
                     
                     Text(attributedText)
                     
